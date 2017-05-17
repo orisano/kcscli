@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-    "./cmd"
+    "github.com/orisano/kcscli/cmd"
 )
 
 func main() {
