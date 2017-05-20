@@ -26,6 +26,5 @@ var subtaskAddCmd = &cobra.Command{
 			cmd.Usage()
 			os.Exit(1)
 		}
-		name := args[0]
 	},
 }
