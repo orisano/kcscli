@@ -1,9 +1,11 @@
-package cmd
+package subcmd
 
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
+	"github.com/orisano/kcscli"
 	"github.com/spf13/cobra"
 )
 
@@ -16,12 +18,16 @@ var initCmd = &cobra.Command{
 	Short: "initialize kcs problem directory",
 	Long:  "initialize kcs problem directory",
 	Run: func(cmd *cobra.Command, args []string) {
-		problem := Problem{
+		if len(args) == 0 {
+			cmd.Usage()
+			os.Exit(1)
+		}
+		problem := kcscli.Problem{
 			Title:       args[0],
 			TimeLimit:   3.0,
 			MemoryLimit: 512,
 			Author:      "None",
-			Subtasks:    []Subtask{},
+			Subtasks:    []kcscli.Subtask{},
 			Solvers:     []string{},
 		}
 		b, _ := json.MarshalIndent(&problem, "", "  ")

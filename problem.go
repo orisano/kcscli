@@ -1,4 +1,4 @@
-package cmd
+package kcscli
 
 // Subtask is component of kcs problem
 type Subtask struct {
