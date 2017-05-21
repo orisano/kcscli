@@ -3,7 +3,7 @@ package subcmd
 import (
 	"os"
 
-	"log"
+	"fmt"
 
 	"github.com/dustin/go-humanize"
 	"github.com/orisano/kcscli"
@@ -13,7 +13,7 @@ import (
 var (
 	humanizedTimeLimit   string
 	humanizedMemoryLimit string
-	author string
+	author               string
 )
 
 func init() {
@@ -35,13 +35,13 @@ var initCmd = &cobra.Command{
 
 		timeLimit, _, err := humanize.ParseSI(humanizedTimeLimit)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 
 		memoryLimit, err := humanize.ParseBytes(humanizedMemoryLimit)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 
@@ -50,7 +50,7 @@ var initCmd = &cobra.Command{
 			TimeLimit:   timeLimit,
 			MemoryLimit: memoryLimit,
 			Author:      author,
-			Subtasks:    []kcscli.Subtask{},
+			Subtasks:    map[string]kcscli.Subtask{},
 			Solvers:     []string{},
 		}
 		problem.Save(true)

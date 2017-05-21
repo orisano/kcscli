@@ -20,14 +20,15 @@ type Subtask struct {
 
 // Problem is problem infomation
 type Problem struct {
-	Title       string    `json:"title"`
-	TimeLimit   float64   `json:"time_limit"`
-	MemoryLimit uint64    `json:"memory_limit"`
-	Author      string    `json:"author"`
-	Subtasks    []Subtask `json:"subtasks"`
-	Solvers     []string  `json:"solvers"`
+	Title       string             `json:"title"`
+	TimeLimit   float64            `json:"time_limit"`
+	MemoryLimit uint64             `json:"memory_limit"`
+	Author      string             `json:"author"`
+	Subtasks    map[string]Subtask `json:"subtasks"`
+	Solvers     []string           `json:"solvers"`
 }
 
+// LoadProblem is loading problem info file function.
 func LoadProblem() (Problem, error) {
 	raw, err := ioutil.ReadFile(problemFilename)
 	if err != nil {
@@ -35,10 +36,14 @@ func LoadProblem() (Problem, error) {
 	}
 
 	var problem Problem
-	json.Unmarshal(raw, problem)
+	err = json.Unmarshal(raw, &problem)
+	if err != nil {
+		return Problem{}, err
+	}
 	return problem, nil
 }
 
+// Save is problem file save.
 func (p *Problem) Save(withStdout bool) error {
 	file, err := os.Create(problemFilename)
 	if err != nil {
@@ -54,6 +59,7 @@ func (p *Problem) Save(withStdout bool) error {
 	return p.SaveTo(writer)
 }
 
+// SaveTo is problem file save
 func (p *Problem) SaveTo(writer io.Writer) error {
 	b, err := json.MarshalIndent(p, "", "  ")
 	if err != nil {
