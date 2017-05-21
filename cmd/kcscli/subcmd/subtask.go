@@ -45,11 +45,10 @@ var subtaskAddCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		problem.Subtasks[name] =
-			kcscli.Subtask{
-				Files: []string{},
-				Score: score,
-			}
+		problem.Subtasks[name] = kcscli.Subtask{
+			Files: []string{},
+			Score: score,
+		}
 
 		problem.Save(false)
 	},
