@@ -17,7 +17,7 @@ type Subtask struct {
 	Score int      `json:"score"`
 }
 
-// Problem is problem infomation
+// Problem is problem information
 type Problem struct {
 	Title       string             `json:"title"`
 	TimeLimit   float64            `json:"time_limit"`
