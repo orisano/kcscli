@@ -13,7 +13,6 @@ const (
 
 // Subtask is component of kcs problem
 type Subtask struct {
-	Name  string   `json:"name"`
 	Files []string `json:"files"`
 	Score int      `json:"score"`
 }

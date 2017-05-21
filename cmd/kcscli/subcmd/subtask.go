@@ -47,7 +47,6 @@ var subtaskAddCmd = &cobra.Command{
 
 		problem.Subtasks[name] =
 			kcscli.Subtask{
-				Name:  args[0],
 				Files: []string{},
 				Score: score,
 			}
