@@ -1,10 +1,6 @@
 package subcmd
 
 import (
-	"os"
-
-	"fmt"
-
 	"github.com/dustin/go-humanize"
 	"github.com/orisano/kcscli"
 	"github.com/spf13/cobra"
@@ -24,35 +20,27 @@ func init() {
 }
 
 var initCmd = &cobra.Command{
-	Use:   "init [problem_title]",
-	Short: "initialize kcs problem directory",
-	Long:  "initialize kcs problem directory",
+	Use:     "init [problem_title]",
+	Short:   "initialize kcs problem directory",
+	Long:    "initialize kcs problem directory",
+	PostRun: problemSaver(true),
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			cmd.Usage()
-			os.Exit(1)
-		}
+		title := take1Args(cmd, args)
 
-		timeLimit, _, err := humanize.ParseSI(humanizedTimeLimit)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
-		}
+		timeLimit, unit, err := humanize.ParseSI(humanizedTimeLimit)
+		exitIf(unit != "s", "time-limit must be 'second'")
+		exitIfError(err, "time-limit:")
 
 		memoryLimit, err := humanize.ParseBytes(humanizedMemoryLimit)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
-		}
+		exitIfError(err, "memory-limit:")
 
-		problem := kcscli.Problem{
-			Title:       args[0],
+		problem = kcscli.Problem{
+			Title:       title,
 			TimeLimit:   timeLimit,
 			MemoryLimit: memoryLimit,
 			Author:      author,
 			Subtasks:    map[string]kcscli.Subtask{},
 			Solvers:     []string{},
 		}
-		problem.Save(true)
 	},
 }

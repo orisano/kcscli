@@ -1,6 +1,7 @@
 package subcmd
 
 import (
+	"github.com/orisano/kcscli"
 	"github.com/spf13/cobra"
 )
 
@@ -10,3 +11,5 @@ var RootCmd = &cobra.Command{
 	Short: "command line tool for kcs problem writer",
 	Long:  "command line tool for kcs problem writer",
 }
+
+var problem kcscli.Problem
